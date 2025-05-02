@@ -15,11 +15,16 @@ document.getElementById("register-form").addEventListener("submit", async functi
                
     });
 
+    
+
     const dados = await resposta.json();
 
     if(resposta.ok) {
         document.getElementById('mensagem').innerHTML = `<p style="color: green;">${dados.message}</p>`;
         document.getElementById("register-form").reset(); // Limpa o formulário após o envio
+        setTimeout(() => {
+            window.location.href = '/'; 
+        }, 1000); // Redireciona após 1 segundos
     }else {
         document.getElementById('mensagem').innerHTML = `<p style="color: red;">${dados.error}</p>`;
     }

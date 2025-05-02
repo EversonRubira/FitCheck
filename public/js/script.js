@@ -3,6 +3,8 @@ document.getElementById('imc-form').addEventListener('submit', function (event) 
   
     const peso = parseFloat(document.getElementById('peso').value);
     const altura = parseFloat(document.getElementById('altura').value);
+    const botao = document.querySelector("button[type='submit']");
+    botao.disabled = true; // Evita múltiplos envios
   
     if (!peso || !altura || altura <= 0) {
       alert("Preencha corretamente os campos!");

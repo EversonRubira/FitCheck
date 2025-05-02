@@ -21,7 +21,7 @@ document.getElementById("login-form").addEventListener("submit", async function(
 
         setTimeout(() => {
             window.location.href = '/'; 
-        }, 2000); // Redireciona após 2 segundos
+        }, 1000); // Redireciona após 1 segundos
     }else {
         document.getElementById('mensagem').innerHTML = `<p style="color: red;">${dados.error}</p>`;
     }
