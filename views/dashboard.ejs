@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - FitCheck</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .info-box {
+      background: #fff;
+      padding: 18px;
+      border-radius: 10px;
+      max-width: 720px;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button-group a button {
+      padding: 8px 14px;
+      font-size: 14px;
+      min-width: 110px;
+    }
+
+    img.emoji {
+      max-width: 80px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div style="text-align: center;">
+      <h1>Olá, <%= nome %> 👋</h1>
+      <img src="https://cdn-icons-png.flaticon.com/512/9483/9483133.png" class="emoji" alt="Saúde e bem-estar">
+    </div>
+
+    <section class="info-box" style="text-align: center;">
+  <h2><%= imcTexto %></h2>
+
+  <div style="margin: 25px 0;">
+    <h3 style="font-size: 22px; color: #00796b; margin-bottom: 10px;">🩺 Feedback</h3>
+    <div style="font-size: 16px; line-height: 1.6;"><%- feedback %></div>
+  </div>
+</section>
+
+    <div class="button-group">
+      <a href="/perfil"><button>👤 Ver/Editar Perfil</button></a>
+      <a href="/metas"><button>🎯 Metas</button></a>
+      <a href="/registro"><button>📝 Novo Registo</button></a>
+      <a href="/historico"><button>📅 Histórico</button></a>
+      <a href="/consulta"><button>🔎 Consulta</button></a>
+      <a href="/auth/logout"><button style="background: #c62828;">🚪 Sair</button></a>
+    </div>
+  </div>
+</body>
+</html>

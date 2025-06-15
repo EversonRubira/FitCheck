@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Registo Diário - FitCheck</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1>Registo Diário</h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success) { %>
+      <p class="success"><%= success %></p>
+    <% } %>
+
+    <%
+      // Defensiva para evitar erro de variável não definida
+      var qs = typeof qualidadeSono !== 'undefined' ? qualidadeSono : '';
+      var intensidadeVal = typeof intensidade !== 'undefined' ? intensidade : '';
+    %>
+
+    <form method="POST" action="/registros">
+      <label for="data">Data:</label>
+      <input type="date" id="data" name="data" required value="<%= typeof data !== 'undefined' ? data : '' %>">
+
+      <label for="horasSono">Horas de Sono:</label>
+      <input type="number" id="horasSono" name="horasSono" required value="<%= typeof horasSono !== 'undefined' ? horasSono : '' %>">
+
+      <label for="qualidadeSono">Qualidade do Sono:</label>
+      <select id="qualidadeSono" name="qualidadeSono">
+        <option value="ruim" <%= qs === 'ruim' ? 'selected' : '' %>>Ruim</option>
+        <option value="razoável" <%= qs === 'razoável' ? 'selected' : '' %>>Razoável</option>
+        <option value="boa" <%= qs === 'boa' ? 'selected' : '' %>>Boa</option>
+      </select>
+
+      <label for="aguaMl">Água ingerida (ml):</label>
+      <input type="number" id="aguaMl" name="aguaMl" required value="<%= typeof aguaMl !== 'undefined' ? aguaMl : '' %>">
+
+      <label for="humor">Humor (1-5):</label>
+      <input type="number" id="humor" name="humor" min="1" max="5" required value="<%= typeof humor !== 'undefined' ? humor : '' %>">
+
+      <label for="tipoAtividade">Tipo de Atividade:</label>
+      <input type="text" id="tipoAtividade" name="tipoAtividade" value="<%= typeof tipoAtividade !== 'undefined' ? tipoAtividade : '' %>">
+
+      <label for="intensidade">Intensidade:</label>
+      <select id="intensidade" name="intensidade">
+        <option value="leve" <%= intensidadeVal === 'leve' ? 'selected' : '' %>>Leve</option>
+        <option value="moderada" <%= intensidadeVal === 'moderada' ? 'selected' : '' %>>Moderada</option>
+        <option value="intensa" <%= intensidadeVal === 'intensa' ? 'selected' : '' %>>Intensa</option>
+      </select>
+
+      <label for="qualidadeAlimentacao">Qualidade da Alimentação (1-5):</label>
+      <input type="number" id="qualidadeAlimentacao" name="qualidadeAlimentacao" min="1" max="5" value="<%= typeof qualidadeAlimentacao !== 'undefined' ? qualidadeAlimentacao : '' %>">
+
+      <button type="submit">Salvar Registo</button>
+    </form>
+
+    <p><a href="/dashboard">⬅ Voltar ao Dashboard</a></p>
+  </div>
+</body>
+</html>

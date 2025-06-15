@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultado da Consulta</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .consulta-wrapper {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    li strong {
+      color: #00796b;
+    }
+
+    .button-group {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="consulta-wrapper">
+    <h2>Registo de <%= data %></h2>
+
+    <% if (notFound) { %>
+      <p class="error">Nenhum registo encontrado para <%= data %>.</p>
+    <% } else { %>
+      <ul>
+        <li><strong>Sono:</strong> <%= horasSono %>h (<%= qualidadeSono %>)</li>
+        <li><strong>Água:</strong> <%= aguaMl %>ml</li>
+        <li><strong>Humor:</strong> <%= humor %>/5</li>
+        <li><strong>Atividade:</strong> <%= tipoAtividade %> (<%= intensidade %>)</li>
+        <li><strong>Alimentação:</strong> <%= qualidadeAlimentacao %>/5</li>
+      </ul>
+    <% } %>
+
+    <div class="button-group">
+      <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+    </div>
+  </div>
+</body>
+</html>
+

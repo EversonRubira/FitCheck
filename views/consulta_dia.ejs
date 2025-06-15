@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Consultar Registo por Data</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1>Consultar Registo Diário</h1>
+
+    <form id="formConsulta">
+      <label for="data">Escolha uma data:</label>
+      <input type="date" id="data" name="data" required>
+      <button type="submit">Consultar</button>
+    </form>
+
+    <p><a href="/dashboard">⬅ Voltar ao Dashboard</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('formConsulta');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = document.getElementById('data').value;
+      if (data) {
+        window.location.href = '/registros/data/' + data;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>🚫 Acesso Negado - FitCheck</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .erro-box {
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 480px;
+      margin: 100px auto;
+    }
+
+    .erro-box h1 {
+      font-size: 32px;
+      color: #c62828;
+      margin-bottom: 20px;
+    }
+
+    .erro-box p {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    .erro-box img {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+
+    .erro-box a button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .erro-box a button:hover {
+      background-color: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <div class="erro-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Proibido">
+    <h1>🚫 Acesso Negado</h1>
+    <p><%= mensagem %></p>
+    <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+  </div>
+</body>
+</html>

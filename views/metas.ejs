@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Definir Metas - FitCheck</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1>Definir Metas Pessoais</h1>
+
+    <% if (typeof error !== 'undefined') { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+    <% if (typeof success !== 'undefined') { %>
+      <p class="success"><%= success %></p>
+    <% } %>
+
+    <form method="POST" action="/metas">
+      <label for="pesoIdeal">Peso Ideal (kg):</label>
+      <input type="number" step="0.1" id="pesoIdeal" name="pesoIdeal" required value="<%= typeof pesoIdeal !== 'undefined' ? pesoIdeal : '' %>">
+
+      <label for="sonoMinimo">Meta de Sono (horas por noite):</label>
+      <input type="number" id="sonoMinimo" name="sonoMinimo" required value="<%= typeof sonoMinimo !== 'undefined' ? sonoMinimo : '' %>">
+
+      <label for="aguaDiariaMl">Meta de Água (ml por dia):</label>
+      <input type="number" id="aguaDiariaMl" name="aguaDiariaMl" required value="<%= typeof aguaDiariaMl !== 'undefined' ? aguaDiariaMl : '' %>">
+
+      <button type="submit">Salvar Metas</button>
+    </form>
+
+    <p><a href="/dashboard">⬅ Voltar ao Dashboard</a></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Histórico de Registos</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .table-wrapper {
+      max-width: 95%;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+
+    .table-wrapper h1 {
+      color: #00796b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="table-wrapper">
+    <h1>Histórico de Registos Diários</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Sono (h)</th>
+          <th>Qualidade Sono</th>
+          <th>Água (ml)</th>
+          <th>Humor</th>
+          <th>Atividade</th>
+          <th>Intensidade</th>
+          <th>Alimentação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% registros.forEach(function(r) { %>
+          <tr>
+            <td><%= r.data %></td>
+            <td><%= r.horasSono || '-' %></td>
+            <td><%= r.qualidadeSono || '-' %></td>
+            <td><%= r.aguaMl || '-' %></td>
+            <td><%= r.humor || '-' %></td>
+            <td><%= r.tipoAtividade || '-' %></td>
+            <td><%= r.intensidade || '-' %></td>
+            <td><%= r.qualidadeAlimentacao || '-' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <div class="back-link">
+      <a href="/dashboard">⬅ Voltar ao Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

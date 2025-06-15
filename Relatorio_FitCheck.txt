@@ -1,0 +1,103 @@
+# Relatório do Projeto: FitCheck
+
+## 1. Identificação do Projeto
+
+**Nome:** FitCheck  
+**UC:** Programação Web  
+**Ano Letivo:** 2024/2025  
+**Instituição:** Instituto Politécnico de Setúbal  
+**Docente Responsável:** Mário Fernandes  
+**Aluno:** Everson Rubira  
+
+## 2. Objetivo
+
+O **FitCheck** é uma aplicação web que permite aos utilizadores acompanharem o seu bem-estar físico e mental através de registos diários de hábitos saudáveis, como horas de sono, ingestão de água, atividade física, humor e alimentação. O sistema também permite definir metas, visualizar históricos e obter feedback automático com base nos dados inseridos.
+
+## 3. Tecnologias Utilizadas
+
+- Node.js
+- Express.js
+- EJS (Templates)
+- CSS3 customizado com responsividade
+- MySQL (via Sequelize ORM)
+- Sessões Express para autenticação
+- HTML5 e JavaScript básico
+
+## 4. Estrutura da Aplicação
+
+```
+FitCheck/
+├── public/                 # Arquivos estáticos (CSS, imagens)
+├── views/                  # Páginas EJS renderizadas
+├── controllers/            # Lógica de negócio
+├── models/                 # Definição de entidades com Sequelize
+├── routes/                 # Rotas divididas por funcionalidade
+├── middleware/             # Verificação de sessão e tipo de usuário
+├── config/                 # Conexão com base de dados
+└── server.js               # Ponto de entrada da aplicação
+```
+
+## 5. Funcionalidades
+
+### 5.1. Autenticação
+- Login e registo de utilizadores com encriptação de senha via bcrypt.
+- Sessão armazenada no servidor com `express-session`.
+
+### 5.2. Perfil
+- Formulário com idade, altura e peso.
+- Apenas utilizadores `PRO` podem editar os dados; utilizadores `comuns` apenas podem criar.
+
+### 5.3. Registo Diário
+- Dados: sono, qualidade do sono, ingestão de água, humor, atividade, intensidade e alimentação.
+- Utilizadores `comuns` podem inserir até **3 registos**.
+- Utilizadores `PRO` podem inserir ilimitadamente.
+
+### 5.4. Histórico
+- Apenas `PRO` pode visualizar todos os dados.
+- `Comum` pode visualizar os seus próprios 3 registos via consulta por data.
+
+### 5.5. Consulta por Data
+- Página visual para consultar um dia específico.
+
+### 5.6. Metas
+- Disponível **somente para utilizadores PRO**.
+- Permite definir metas de bem-estar: horas de sono, ingestão de água e peso ideal.
+
+### 5.7. Feedback Automático
+- Exibido no dashboard, com base nos dados inseridos e metas configuradas.
+
+## 6. Estilo e Design
+
+- Estilo visual moderno com foco em usabilidade e relaxamento.
+- Ícone/logo representativo (criado com auxílio do ChatGPT e Sora AI).
+- Background relaxante aplicado com opacidade.
+- Formulários e dashboards 100% responsivos, sem scroll excessivo.
+- Frase de boas-vindas motivacional na página principal:
+  > "Cuide do seu corpo, mente e energia. Registe. Acompanhe. Evolua. 🌱"
+
+## 7. Regras de Acesso e Permissões
+
+| Funcionalidade        | Utilizador Comum | Utilizador PRO |
+|-----------------------|------------------|----------------|
+| Criar perfil          | ✅               | ✅             |
+| Editar perfil         | ❌               | ✅             |
+| Criar registos        | ✅ (máx. 3)       | ✅ (sem limite)|
+| Acessar histórico     | ❌               | ✅             |
+| Definir metas         | ❌               | ✅             |
+| Ver feedback          | ✅               | ✅             |
+
+## 8. Melhorias Futuras
+
+- Adicionar gráficos com Chart.js (usando /registros/json).
+- Dashboard com alertas em tempo real.
+- Notificações de metas e hábitos.
+- Versão mobile offline com PWA.
+- Exportar relatórios em PDF ou Excel.
+
+## 9. Conclusão
+
+O projeto **FitCheck** entrega com sucesso as funcionalidades propostas no enunciado da UC de Programação Web, aplicando boas práticas de estruturação de projeto, segurança, interface responsiva e diferenciação por tipo de utilizador.
+
+---
+
+**Data de Geração:** 14/06/2025

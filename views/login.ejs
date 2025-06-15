@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - FitCheck</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1>Entrar no FitCheck</h1>
+
+    <% if (typeof error !== 'undefined') { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+    <form method="POST" action="/auth/login">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p>
+      Não tem uma conta? <a href="/register">Registe-se aqui</a>.
+      <br>
+      <a href="/dashboard">⬅ Voltar ao Dashboard</a>
+    </p>
+  </div>
+</body>
+</html>
