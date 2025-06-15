@@ -1,47 +1,66 @@
-# FitCheck - Calculadora de IMC com Histórico
+# 💪 FitCheck – Seu Assistente de Bem-Estar
 
-Este projeto foi desenvolvido como parte da Unidade Curricular de Programação Web (2025) no Instituto Politécnico de Setúbal.
+**FitCheck** é uma aplicação web desenvolvida com Node.js, Express, EJS e MySQL, que permite que utilizadores registem e acompanhem hábitos diários de saúde, como sono, hidratação, humor, alimentação e atividade física. A aplicação diferencia entre utilizadores comuns e PRO, oferecendo funcionalidades exclusivas para quem deseja evoluir ainda mais!
 
-## Objetivo
+---
 
-Permitir que utilizadores registados calculem seu IMC (Índice de Massa Corporal), visualizem a classificação correspondente e mantenham um histórico pessoal com seus resultados anteriores.
+## 🧭 Funcionalidades
 
-## Funcionalidades
+### ✅ Funcionalidades Gerais
+- Login e Registo de Utilizadores
+- Criação de perfil com idade, altura e peso
+- Cálculo automático do IMC com feedback personalizado
+- Registo diário de:
+  - Sono (horas e qualidade)
+  - Consumo de água (ml)
+  - Humor (1 a 5)
+  - Alimentação
+  - Atividade física e intensidade
+- Consulta de registos por data
+- Dashboard com resumo, feedback e ações rápidas
 
-- Registo de utilizadores
-- Login com sessão
-- Cálculo automático de IMC
-- Armazenamento do cálculo por utilizador
-- Listagem do histórico pessoal
-- Logout e proteção de páginas
-- Navegação simples entre páginas
+### 🔐 Permissões por Tipo de Utilizador
 
-## Tecnologias Utilizadas
+| Funcionalidade        | Comum 👤 | PRO ⭐ |
+|-----------------------|:--------:|:------:|
+| Criar Perfil          | ✅       | ✅     |
+| Editar Perfil         | ❌       | ✅     |
+| Ver Histórico         | ❌       | ✅     |
+| Criar até 3 Registos  | ✅       | ✅     |
+| Criar Registos Ilimitados | ❌    | ✅     |
+| Metas de Bem-Estar    | ❌       | ✅     |
 
-- HTML5, CSS3 e JavaScript (DOM, fetch)
-- Node.js e Express.js
-- MySQL
-- express-session
+---
 
-## Estrutura do Projeto
+## 🧑‍💻 Tecnologias Utilizadas
 
-- `/views`: páginas HTML (login, registro, index, histórico)
-- `/public`: ficheiros CSS e JS
-- `/routes`: rotas separadas (`authRoutes`, `imcRoutes`)
-- `server.js`: configuração principal
-- `db.js`: ligação ao MySQL
+- **Node.js**
+- **Express.js**
+- **EJS** (views dinâmicas)
+- **MySQL** com **Sequelize ORM**
+- **CSS Responsivo** com layout centrado e visual relaxante
+- **Sessões (express-session)** para autenticação
+- **bcrypt** para hash de senhas
 
-## Como Executar
+---
 
-1. Clonar ou copiar os ficheiros do projeto
-2. Executar `npm install` para instalar as dependências
-3. Criar a base de dados `fitcheck` no MySQL com as tabelas `users` e `imc_records`
-4. Executar `node server.js`
-5. Aceder a `http://localhost:3000` no navegador
+## 🚀 Instalação e Execução
 
-## Observações
+### 🔧 Requisitos
 
-- As páginas principais estão protegidas por sessão
-- O histórico só é visível após login
-- O projeto foi mantido simples, com foco na funcionalidade
+- Node.js (versão LTS)
+- MySQL Server ou MariaDB
+- Git (opcional)
+
+### 📦 Passos
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/EversonRubira/FitCheck.git
+cd FitCheck
+````
+
+Desenvolvido por Everson Rubira – aluno de Programação Web no Instituto Politécnico de Setúbal.
+
+
 
