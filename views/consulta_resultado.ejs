@@ -3,30 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <title>Resultado da Consulta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/img/logo-fitcheck.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.7), rgba(241, 248, 233, 0.7)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 80px;
     }
 
-    .consulta-wrapper {
-      max-width: 500px;
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px;
       width: 100%;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      background-color: #ffffffee;
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00796b;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 26px;
+      margin-right: 10px;
+    }
+
+    .topbar nav a {
+      margin-left: 16px;
+      text-decoration: none;
+      color: #00796b;
+      font-weight: 500;
+    }
+
+    .topbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    .dashboard-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 30px 20px;
       text-align: center;
+    }
+
+    h2 {
+      color: #00796b;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
     }
 
     ul {
       list-style: none;
       padding: 0;
-      line-height: 1.8;
-      font-size: 16px;
+      margin: 0 auto;
+      max-width: 320px;
+      font-size: clamp(0.95rem, 2vw, 1rem);
+      line-height: 1.6;
+      text-align: left;
     }
 
     li strong {
@@ -34,25 +93,60 @@
     }
 
     .button-group {
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button-group a button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #26a69a;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-group a button:hover {
+      background-color: #00796b;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="consulta-wrapper">
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo FitCheck"> FitCheck
+    </div>
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/registro">Registo</a>
+      <a href="/consulta">Consulta</a>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
     <h2>Registo de <%= data %></h2>
 
-    <% if (notFound) { %>
-      <p class="error">Nenhum registo encontrado para <%= data %>.</p>
-    <% } else { %>
-      <ul>
-        <li><strong>Sono:</strong> <%= horasSono %>h (<%= qualidadeSono %>)</li>
-        <li><strong>Água:</strong> <%= aguaMl %>ml</li>
-        <li><strong>Humor:</strong> <%= humor %>/5</li>
-        <li><strong>Atividade:</strong> <%= tipoAtividade %> (<%= intensidade %>)</li>
-        <li><strong>Alimentação:</strong> <%= qualidadeAlimentacao %>/5</li>
-      </ul>
-    <% } %>
+    <section class="info-box">
+      <% if (notFound) { %>
+        <p class="error">Nenhum registo encontrado para <%= data %>.</p>
+      <% } else { %>
+        <ul>
+          <li><strong>Sono:</strong> <%= horasSono %>h (<%= qualidadeSono %>)</li>
+          <li><strong>Água:</strong> <%= aguaMl %>ml</li>
+          <li><strong>Humor:</strong> <%= humor %>/5</li>
+          <li><strong>Atividade:</strong> <%= tipoAtividade %> (<%= intensidade %>)</li>
+          <li><strong>Alimentação:</strong> <%= qualidadeAlimentacao %>/5</li>
+        </ul>
+      <% } %>
+    </section>
 
     <div class="button-group">
       <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
@@ -60,4 +154,3 @@
   </div>
 </body>
 </html>
-

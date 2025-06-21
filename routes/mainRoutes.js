@@ -1,28 +1,60 @@
 const express = require('express');
 const router = express.Router();
+const { Op } = require('sequelize');
 
 const Perfil = require('../models/Perfil');
 const Meta = require('../models/Meta');
 const Registro = require('../models/Registro');
 
-// Dashboard protegido (lógica do feedback IMC e metas)
+// Dashboard protegido (lógica do feedback IMC, metas e incentivo)
 router.get('/dashboard', async (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
 
+  const userId = req.session.userId;
+  const userName = req.session.userName || 'Utilizador';
+
   let imcTexto = 'IMC não disponível';
   let feedback = '';
-  const userId = req.session.userId;
+  let mensagemIncentivo = 'Cuide bem de si! Registe suas atividades e evolua. 🌿';
+
+  const hoje = new Date();
+  const seteDiasAtras = new Date();
+  seteDiasAtras.setDate(hoje.getDate() - 7);
 
   try {
-    const [perfil, meta, registros] = await Promise.all([
+    const [perfil, meta] = await Promise.all([
       Perfil.findOne({ where: { userId } }),
       Meta.findOne({ where: { userId } }),
-      Registro.findAll({
-        where: { userId },
-        order: [['data', 'DESC']],
-        limit: 3
-      })
     ]);
+
+    const registros = await Registro.findAll({
+      where: {
+        userId,
+        data: {
+          [Op.gte]: seteDiasAtras
+        }
+      },
+      order: [['data', 'DESC']]
+    });
+
+    // Incentivo com base na intensidade do último registro
+    const ultimo = registros[0];
+    if (ultimo && ultimo.intensidade) {
+      switch (ultimo.intensidade) {
+        case 'sem atividade':
+          mensagemIncentivo = '😌 Tudo bem! Comece devagar e vá aumentando.';
+          break;
+        case 'leve':
+          mensagemIncentivo = '💡 Vamos lá! Um passo leve ainda é um passo!';
+          break;
+        case 'moderada':
+          mensagemIncentivo = '👏 Ótimo ritmo! Mantenha essa energia saudável!';
+          break;
+        case 'intensa':
+          mensagemIncentivo = '🔥 Impressionante! Continue com essa intensidade!';
+          break;
+      }
+    }
 
     // IMC
     if (perfil) {
@@ -41,38 +73,44 @@ router.get('/dashboard', async (req, res) => {
       }
     }
 
-    // Sono e água - média dos últimos 3 dias
+    // Sono e água - média dos últimos dias
     if (meta && registros.length > 0) {
       const mediaSono = (registros.reduce((s, r) => s + r.horasSono, 0) / registros.length).toFixed(1);
       const mediaAgua = (registros.reduce((s, r) => s + r.aguaMl, 0) / registros.length).toFixed(0);
 
       if (meta.sonoMinimo && mediaSono < meta.sonoMinimo) {
-        feedback += `<p>😴 Média de sono nos últimos dias: ${mediaSono}h (abaixo da meta de ${meta.sonoMinimo}h).</p>`;
+        feedback += `<p>😴 Média de sono diária: ${mediaSono}h (abaixo da meta de ${meta.sonoMinimo}h).</p>`;
       } else {
         feedback += `<p>✅ Sono dentro da meta! Média: ${mediaSono}h.</p>`;
       }
 
       if (meta.aguaDiariaMl && mediaAgua < meta.aguaDiariaMl) {
-        feedback += `<p>🚰 Ingestão média de água: ${mediaAgua}ml (abaixo da meta de ${meta.aguaDiariaMl}ml).</p>`;
+        feedback += `<p>🚰 Água: ${mediaAgua}ml (abaixo da meta diária de ${meta.aguaDiariaMl}ml).</p>`;
       } else {
-        feedback += `<p>✅ Hidratação dentro da meta! Média: ${mediaAgua}ml.</p>`;
+        feedback += `<p>✅ Hidratação em dia! Média: ${mediaAgua}ml.</p>`;
       }
     }
 
     if (feedback === '') {
       feedback = '<p>Nenhum alerta. Tudo parece estar dentro das metas.</p>';
     }
+
+    res.render('dashboard', {
+      nome: userName,
+      imcTexto,
+      feedback,
+      mensagemIncentivo
+    });
+
   } catch (error) {
     console.error("Erro no dashboard:", error);
-    feedback = '<p>Erro ao carregar dados para feedback.</p>';
+    res.render('dashboard', {
+      nome: userName,
+      imcTexto,
+      feedback: '<p>Erro ao carregar dados para feedback.</p>',
+      mensagemIncentivo
+    });
   }
-
-  // Renderize um EJS chamado "dashboard.ejs" (você pode criar um simples baseado no conteúdo abaixo)
-  res.render('dashboard', {
-    nome: req.session.userName || 'Utilizador',
-    imcTexto,
-    feedback
-  });
 });
 
 // Página inicial
@@ -91,29 +129,25 @@ router.get('/register', (req, res) => {
   res.render('register');
 });
 
-// Página de IMC (se quiser manter como ferramenta)
+// Página de IMC
 router.get('/imc', (req, res) => {
   res.render('imc');
 });
 
-// Histórico de registos (protegido)
+// Histórico de registos
 const { getHistorico } = require('../controllers/registroController');
 router.get('/historico', getHistorico);
 
-
-// Página de consulta de registo por data (protegida)
+// Consulta por data
 router.get('/consulta', (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
   res.render('consulta_dia');
 });
 
-// Formulário de registo diário (protegido)
+// Formulário de registo
 router.get('/registro', (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
   res.render('registro');
 });
 
-// Páginas de perfil e metas acessíveis pelas rotas /perfil e /metas nas rotas específicas!
-
 module.exports = router;
-

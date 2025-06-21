@@ -5,72 +5,125 @@
   box-sizing: border-box;
 }
 
-/* Corpo com fundo relaxante */
+/* Corpo ocupa 100% da tela e distribui conteúdo verticalmente */
 body {
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
   background: linear-gradient(135deg, rgba(224, 247, 250, 0.6), rgba(241, 248, 233, 0.6)),
               url('/img/bg-relaxante.jpg') no-repeat center center fixed;
   background-size: cover;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
-  overflow: hidden;
+  padding: 8px;
 }
 
-/* Container central para formulários */
-.form-wrapper {
+/* Container central da dashboard */
+.dashboard-container {
   width: 100%;
-  max-width: 500px;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  max-height: 90vh;
-}
-
-/* Cabeçalhos */
-h1, h2 {
-  color: #00796b;
-  margin-bottom: 20px;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 40px 20px;
   text-align: center;
 }
 
-/* Formulários */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+/* Imagem de emoji */
+img.emoji {
+  max-width: 50px;
+  height: auto;
+  margin-bottom: 5px;
 }
 
-label {
+/* Títulos responsivos */
+h1 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: #00796b;
+  margin: 6px 0;
+  font-weight: 600;
+}
+
+h2, h3 {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #00796b;
+  margin: 4px 0;
+}
+
+h3 {
   font-weight: bold;
-  color: #555;
 }
 
-input, select, button {
-  padding: 12px;
-  font-size: 16px;
+/* Bloco de feedback */
+.info-box {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+
+/* Agrupamento de botões */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Botões padrão */
+.button-group a button {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  min-width: 85px;
+  border: none;
+  background-color: #26a69a;
+  color: white;
   border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.button-group a button:hover {
+  background-color: #00796b;
+}
+
+/* Botão especial: sair */
+.button-group a button[style*="background: #c62828"] {
+  background-color: #c62828;
+}
+
+/* Estilo de inputs e selects */
+input, select {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
   border: 1px solid #ccc;
 }
 
+/* Botões individuais */
 button {
+  padding: 8px 16px;
+  font-size: 0.95rem;
   background-color: #00796b;
   color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  min-height: 36px;
 }
 
 button:hover {
   background-color: #004d40;
 }
 
-/* Links e mensagens */
+/* Mensagens e links */
 p {
   margin: 10px 0;
   text-align: center;
@@ -88,41 +141,14 @@ p a:hover {
 .success {
   color: green;
   font-weight: bold;
-  text-align: center;
 }
 
 .error {
   color: red;
   font-weight: bold;
-  text-align: center;
 }
 
-/* Botões agrupados */
-.button-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.button-group a button {
-  padding: 10px 16px;
-  min-width: 130px;
-  font-size: 14px;
-  background-color: #26a69a;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.button-group a button:hover {
-  background-color: #00796b;
-}
-
-/* Tabelas (caso usadas em alguma tela) */
+/* Tabelas (caso usadas em outras views) */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -144,18 +170,59 @@ th {
   color: white;
 }
 
-/* Responsivo */
+/* Ajustes para mobile */
 @media (max-width: 600px) {
-  .form-wrapper {
-    padding: 20px;
-    max-height: 95vh;
+  .dashboard-container {
+    padding: 4px;
   }
 
-  input, select, button {
-    font-size: 14px;
+  .info-box {
+    padding: 8px 12px;
   }
 
   .button-group a button {
-    width: 100%;
+    font-size: 0.8rem;
+    min-width: 100px;
+    padding: 5px 8px;
   }
+
+  img.emoji {
+    max-width: 40px;
+  }
+}
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #ffffffcc;
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+.topbar .logo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #00796b;
+  display: flex;
+  align-items: center;
+}
+
+.topbar nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #00796b;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.topbar nav a:hover {
+  color: #004d40;
 }

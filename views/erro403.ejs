@@ -3,57 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <title>🚫 Acesso Negado - FitCheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="/img/logo-fitcheck.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.7), rgba(241, 248, 233, 0.7)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+      background-color: #ffffffdd;
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00796b;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 28px;
+      margin-right: 10px;
+    }
+
     .erro-box {
       background-color: #ffffff;
-      padding: 40px 30px;
+      padding: 32px 24px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
-      max-width: 480px;
-      margin: 100px auto;
-    }
-
-    .erro-box h1 {
-      font-size: 32px;
-      color: #c62828;
-      margin-bottom: 20px;
-    }
-
-    .erro-box p {
-      font-size: 18px;
-      color: #444;
-      margin-bottom: 30px;
+      max-width: 420px;
+      width: 100%;
     }
 
     .erro-box img {
-      width: 80px;
-      margin-bottom: 15px;
+      width: 64px;
+      margin-bottom: 14px;
     }
 
-    .erro-box a button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 8px;
+    .erro-box h1 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      color: #c62828;
+      margin-bottom: 12px;
+    }
+
+    .erro-box p {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .erro-box .button-group {
+      margin-top: 12px;
+    }
+
+    .erro-box .button-group a button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
       background-color: #00796b;
-      color: white;
       border: none;
+      color: white;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
     }
 
-    .erro-box a button:hover {
+    .erro-box .button-group a button:hover {
       background-color: #004d40;
     }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo FitCheck"> FitCheck
+    </div>
+  </header>
+
   <div class="erro-box">
     <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Proibido">
     <h1>🚫 Acesso Negado</h1>
     <p><%= mensagem %></p>
-    <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+
+    <div class="button-group">
+      <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+    </div>
   </div>
 </body>
 </html>

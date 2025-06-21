@@ -3,26 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - FitCheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/img/logo-fitcheck.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    .dashboard-container {
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.7), rgba(241, 248, 233, 0.7)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 80px;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+      background-color: #ffffffee;
+      backdrop-filter: blur(5px);
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: space-around;
-      height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00796b;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 26px;
+      margin-right: 10px;
+    }
+
+    .topbar nav a {
+      margin-left: 16px;
+      text-decoration: none;
+      color: #00796b;
+      font-weight: 500;
+    }
+
+    .topbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    .dashboard-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      color: #00796b;
+      margin-bottom: 10px;
+    }
+
+    img.emoji {
+      width: 60px;
+      margin-bottom: 12px;
     }
 
     .info-box {
-      background: #fff;
-      padding: 18px;
-      border-radius: 10px;
-      max-width: 720px;
-      width: 100%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      font-size: 15px;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      max-width: 100%;
+      margin-top: 30px;
+    }
+
+    .info-box h2 {
+      color: #00796b;
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+    }
+
+    .info-box h3 {
+      color: #444;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .info-box div {
+      font-size: 1rem;
       line-height: 1.5;
     }
 
@@ -31,45 +106,64 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .button-group a button {
       padding: 8px 14px;
-      font-size: 14px;
-      min-width: 110px;
+      font-size: 0.9rem;
+      background-color: #26a69a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
     }
 
-    img.emoji {
-      max-width: 80px;
-      margin-bottom: 15px;
+    .button-group a button:hover {
+      background-color: #00796b;
+    }
+
+    .button-group a button[style*="background: #c62828"] {
+      background-color: #c62828;
+    }
+
+    .button-group a button[style*="background: #c62828"]:hover {
+      background-color: #b71c1c;
     }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo FitCheck"> FitCheck
+    </div>
+    <nav>
+      <a href="/perfil">Perfil</a>
+      <a href="/metas">Metas</a>
+      <a href="/registro">Registo</a>
+      <a href="/historico">Histórico</a>
+      <a href="/consulta">Consulta</a>
+      <a href="/auth/logout"><strong style="color: #c62828;">Sair</strong></a>
+    </nav>
+  </header>
+
   <div class="dashboard-container">
-    <div style="text-align: center;">
-      <h1>Olá, <%= nome %> 👋</h1>
-      <img src="https://cdn-icons-png.flaticon.com/512/9483/9483133.png" class="emoji" alt="Saúde e bem-estar">
-    </div>
+    <h1>Olá, <%= nome %> 👋</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/9483/9483133.png" class="emoji" alt="Saúde e bem-estar">
 
-    <section class="info-box" style="text-align: center;">
-  <h2><%= imcTexto %></h2>
+    <section class="info-box">
+      <h2><%= imcTexto %></h2>
+      <h3>🩺 Feedback</h3>
+      <div><%- feedback %></div>
 
-  <div style="margin: 25px 0;">
-    <h3 style="font-size: 22px; color: #00796b; margin-bottom: 10px;">🩺 Feedback</h3>
-    <div style="font-size: 16px; line-height: 1.6;"><%- feedback %></div>
-  </div>
-</section>
-
-    <div class="button-group">
-      <a href="/perfil"><button>👤 Ver/Editar Perfil</button></a>
-      <a href="/metas"><button>🎯 Metas</button></a>
-      <a href="/registro"><button>📝 Novo Registo</button></a>
-      <a href="/historico"><button>📅 Histórico</button></a>
-      <a href="/consulta"><button>🔎 Consulta</button></a>
-      <a href="/auth/logout"><button style="background: #c62828;">🚪 Sair</button></a>
-    </div>
+      <% if (mensagemIncentivo) { %>
+        <p style="margin-top: 12px; font-size: 1.1rem; color: #00796b;">
+          <strong><%= mensagemIncentivo %></strong>
+        </p>
+      <% } %>
+    </section>
   </div>
 </body>
 </html>

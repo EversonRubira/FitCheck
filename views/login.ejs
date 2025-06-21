@@ -3,12 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <title>Login - FitCheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.6), rgba(241, 248, 233, 0.6)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 100px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #ffffffcc;
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #00796b;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 28px;
+      margin-right: 10px;
+    }
+
+    .topbar nav a {
+      text-decoration: none;
+      color: #00796b;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-left: 15px;
+    }
+
+    h1 {
+      color: #00796b;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .info-box {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+    }
+
+    label {
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #26a69a;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="form-wrapper">
-    <h1>Entrar no FitCheck</h1>
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo"> FitCheck
+    </div>
+    <nav>
+      <a href="/register">Criar Conta</a>
+    </nav>
+  </header>
 
+  <h1>Entrar no FitCheck</h1>
+
+  <section class="info-box">
     <% if (typeof error !== 'undefined') { %>
       <p class="error"><%= error %></p>
     <% } %>
@@ -22,12 +140,6 @@
 
       <button type="submit">Entrar</button>
     </form>
-
-    <p>
-      Não tem uma conta? <a href="/register">Registe-se aqui</a>.
-      <br>
-      <a href="/dashboard">⬅ Voltar ao Dashboard</a>
-    </p>
-  </div>
+  </section>
 </body>
 </html>

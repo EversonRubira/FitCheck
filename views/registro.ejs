@@ -3,10 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <title>Registo Diário - FitCheck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/logo-fitcheck.png">
   <link rel="stylesheet" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.6), rgba(241, 248, 233, 0.6)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-weight: 700;
+      color: #00796b;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 26px;
+      margin-right: 8px;
+    }
+
+    .topbar nav a {
+      margin-left: 18px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .topbar nav a:hover {
+      color: #00796b;
+    }
+
+    .dashboard-container {
+      margin-top: 80px;
+      max-width: 720px;
+      margin-inline: auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00796b;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .info-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      margin-top: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    form label {
+      font-weight: 500;
+      color: #444;
+      font-size: 0.95rem;
+      text-align: left;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    form input,
+    form select {
+      padding: 6px 8px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    form button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #26a69a;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #00796b;
+    }
+
+    .button-group {
+      margin-top: 20px;
+    }
+
+    .error, .success {
+      text-align: center;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .error { color: red; }
+    .success { color: green; }
+  </style>
 </head>
 <body>
-  <div class="form-wrapper">
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo">
+      FitCheck
+    </div>
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/perfil">Perfil</a>
+      <a href="/metas">Metas</a>
+      <a href="/registro">Novo Registo</a>
+      <a href="/historico">Histórico</a>
+      <a href="/consulta">Consulta</a>
+      <a href="/auth/logout" style="font-weight: bold;">Sair</a>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
     <h1>Registo Diário</h1>
 
     <% if (typeof error !== 'undefined' && error) { %>
@@ -17,48 +168,62 @@
     <% } %>
 
     <%
-      // Defensiva para evitar erro de variável não definida
-      var qs = typeof qualidadeSono !== 'undefined' ? qualidadeSono : '';
-      var intensidadeVal = typeof intensidade !== 'undefined' ? intensidade : '';
+    var qs = typeof qualidadeSono !== 'undefined' ? qualidadeSono : '';
+    var intensidadeVal = typeof intensidade !== 'undefined' ? intensidade : '';
+    var humor = typeof humor !== 'undefined' ? humor : '';
+    var qualidadeAlimentacao = typeof qualidadeAlimentacao !== 'undefined' ? qualidadeAlimentacao : '';
     %>
 
-    <form method="POST" action="/registros">
-      <label for="data">Data:</label>
-      <input type="date" id="data" name="data" required value="<%= typeof data !== 'undefined' ? data : '' %>">
+    <section class="info-box">
+      <form method="POST" action="/registros">
+        <label for="data">Data:</label>
+        <input type="date" id="data" name="data" required value="<%= typeof data !== 'undefined' ? data : '' %>">
 
-      <label for="horasSono">Horas de Sono:</label>
-      <input type="number" id="horasSono" name="horasSono" required value="<%= typeof horasSono !== 'undefined' ? horasSono : '' %>">
+        <label for="horasSono">Horas de Sono:</label>
+        <input type="number" id="horasSono" name="horasSono" required value="<%= typeof horasSono !== 'undefined' ? horasSono : '' %>">
 
-      <label for="qualidadeSono">Qualidade do Sono:</label>
-      <select id="qualidadeSono" name="qualidadeSono">
-        <option value="ruim" <%= qs === 'ruim' ? 'selected' : '' %>>Ruim</option>
-        <option value="razoável" <%= qs === 'razoável' ? 'selected' : '' %>>Razoável</option>
-        <option value="boa" <%= qs === 'boa' ? 'selected' : '' %>>Boa</option>
-      </select>
+        <label for="qualidadeSono">Qualidade do Sono:</label>
+        <select id="qualidadeSono" name="qualidadeSono">
+          <option value="ruim" <%= qs === 'ruim' ? 'selected' : '' %>>Ruim</option>
+          <option value="razoável" <%= qs === 'razoável' ? 'selected' : '' %>>Razoável</option>
+          <option value="boa" <%= qs === 'boa' ? 'selected' : '' %>>Boa</option>
+        </select>
 
-      <label for="aguaMl">Água ingerida (ml):</label>
-      <input type="number" id="aguaMl" name="aguaMl" required value="<%= typeof aguaMl !== 'undefined' ? aguaMl : '' %>">
+        <label for="aguaMl">Água ingerida (ml):</label>
+        <input type="number" id="aguaMl" name="aguaMl" required value="<%= typeof aguaMl !== 'undefined' ? aguaMl : '' %>">
 
-      <label for="humor">Humor (1-5):</label>
-      <input type="number" id="humor" name="humor" min="1" max="5" required value="<%= typeof humor !== 'undefined' ? humor : '' %>">
+        <label for="humor">Humor:</label>
+        <select id="humor" name="humor" required>
+        <option value="1" <%= humor === '1' ? 'selected' : '' %>>😞 Muito Ruim</option>
+        <option value="2" <%= humor === '2' ? 'selected' : '' %>>😕 Ruim</option>
+        <option value="3" <%= humor === '3' ? 'selected' : '' %>>😐 Neutro</option>
+        <option value="4" <%= humor === '4' ? 'selected' : '' %>>😊 Bom</option>
+        <option value="5" <%= humor === '5' ? 'selected' : '' %>>😁 Excelente</option>
+        </select>
+        <label for="tipoAtividade">Tipo de Atividade:</label>
+        <input type="text" id="tipoAtividade" name="tipoAtividade" value="<%= typeof tipoAtividade !== 'undefined' ? tipoAtividade : '' %>">
 
-      <label for="tipoAtividade">Tipo de Atividade:</label>
-      <input type="text" id="tipoAtividade" name="tipoAtividade" value="<%= typeof tipoAtividade !== 'undefined' ? tipoAtividade : '' %>">
+        <label for="intensidade">Intensidade:</label>
+        <select id="intensidade" name="intensidade">
+          <option value="sem atividade" <%= intensidadeVal === 'sem atividade' ? 'selected' : '' %>>Sem Atividade</option>
+          <option value="leve" <%= intensidadeVal === 'leve' ? 'selected' : '' %>>Leve</option>
+          <option value="moderada" <%= intensidadeVal === 'moderada' ? 'selected' : '' %>>Moderada</option>
+          <option value="intensa" <%= intensidadeVal === 'intensa' ? 'selected' : '' %>>Intensa</option>
+        </select>
 
-      <label for="intensidade">Intensidade:</label>
-      <select id="intensidade" name="intensidade">
-        <option value="leve" <%= intensidadeVal === 'leve' ? 'selected' : '' %>>Leve</option>
-        <option value="moderada" <%= intensidadeVal === 'moderada' ? 'selected' : '' %>>Moderada</option>
-        <option value="intensa" <%= intensidadeVal === 'intensa' ? 'selected' : '' %>>Intensa</option>
-      </select>
+        <label for="qualidadeAlimentacao">Qualidade da Alimentação:</label>
+        <select id="qualidadeAlimentacao" name="qualidadeAlimentacao">
+        <option value="1" <%= qualidadeAlimentacao === '1' ? 'selected' : '' %>>🍔 Muito Ruim</option>
+        <option value="2" <%= qualidadeAlimentacao === '2' ? 'selected' : '' %>>🥪 Ruim</option>
+        <option value="3" <%= qualidadeAlimentacao === '3' ? 'selected' : '' %>>🍛 Regular</option>
+        <option value="4" <%= qualidadeAlimentacao === '4' ? 'selected' : '' %>>🥗 Boa</option>
+        <option value="5" <%= qualidadeAlimentacao === '5' ? 'selected' : '' %>>🌿 Excelente</option>
+        </select>
+        <button type="submit">Salvar Registo</button>
+      </form>
+    </section>
 
-      <label for="qualidadeAlimentacao">Qualidade da Alimentação (1-5):</label>
-      <input type="number" id="qualidadeAlimentacao" name="qualidadeAlimentacao" min="1" max="5" value="<%= typeof qualidadeAlimentacao !== 'undefined' ? qualidadeAlimentacao : '' %>">
-
-      <button type="submit">Salvar Registo</button>
-    </form>
-
-    <p><a href="/dashboard">⬅ Voltar ao Dashboard</a></p>
+    
   </div>
 </body>
 </html>

@@ -3,65 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <title>Histórico de Registos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/img/logo-fitcheck.png">
   <link rel="stylesheet" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    .table-wrapper {
-      max-width: 95%;
-      margin: 60px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      overflow-x: auto;
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.6), rgba(241, 248, 233, 0.6)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      padding-top: 80px;
     }
 
-    .table-wrapper h1 {
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+      background-color: #ffffffee;
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
       color: #00796b;
-      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 26px;
+      margin-right: 10px;
+    }
+
+    .topbar nav a {
+      margin-left: 16px;
+      text-decoration: none;
+      color: #00796b;
+      font-weight: 500;
+    }
+
+    .topbar nav a:hover {
+      text-decoration: underline;
+    }
+
+    .dashboard-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 40px 20px;
       text-align: center;
     }
 
-    .back-link {
+    h1 {
+      color: #00796b;
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+  .table-header-fixed {
+      display: grid;
+      grid-template-columns:  40% 15% 15% 15% 15%;
+      background-color: #009688;
+      color: white;
+      font-weight: 600;
+      padding: 12px 0;
+      border-radius: 10px;
+      margin: 0 auto 12px auto;
+      max-width: 100%
+  
+    }
+
+  .table-wrapper {
+      background: white;
+      padding: 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow-y: auto;
+      max-height: 360px;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+    }
+
+    td {
+      padding: 12px 8px;
       text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .pagination {
       margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pagination a {
+      padding: 8px 14px;
+      border: 1px solid #00796b;
+      border-radius: 4px;
+      background-color: #fff;
+      color: #00796b;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+
+    .pagination a.active {
+      background-color: #00796b;
+      color: white;
+    }
+
+    .pagination a:hover {
+      background-color: #004d40;
+      color: white;
+    }
+
+    .button-group {
+      margin-top: 28px;
+    }
+
+    .button-group a button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-group a button:hover {
+      background-color: #004d40;
     }
   </style>
 </head>
 <body>
-  <div class="table-wrapper">
-    <h1>Histórico de Registos Diários</h1>
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo FitCheck"> FitCheck
+    </div>
+    <nav>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/registro">Novo Registo</a>
+      <a href="/consulta">Consulta</a>
+    </nav>
+  </header>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Sono (h)</th>
-          <th>Qualidade Sono</th>
-          <th>Água (ml)</th>
-          <th>Humor</th>
-          <th>Atividade</th>
-          <th>Intensidade</th>
-          <th>Alimentação</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% registros.forEach(function(r) { %>
-          <tr>
-            <td><%= r.data %></td>
-            <td><%= r.horasSono || '-' %></td>
-            <td><%= r.qualidadeSono || '-' %></td>
-            <td><%= r.aguaMl || '-' %></td>
-            <td><%= r.humor || '-' %></td>
-            <td><%= r.tipoAtividade || '-' %></td>
-            <td><%= r.intensidade || '-' %></td>
-            <td><%= r.qualidadeAlimentacao || '-' %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
+  <div class="dashboard-container">
+    <h1>Histórico Recente</h1>
 
-    <div class="back-link">
-      <a href="/dashboard">⬅ Voltar ao Dashboard</a>
+    <div class="table-header-fixed">
+      <div>Data</div>
+      <div>Sono</div>
+      <div>Água</div>
+      <div>Humor</div>
+      <div>Alim.</div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+         <colgroup>
+      <col style="width: 40%">
+      <col style="width: 15%">
+      <col style="width: 15%">
+      <col style="width: 15%">
+      <col style="width: 15%">
+    </colgroup>
+        <tbody>
+          <% registros.forEach(function(r) { %>
+            <tr>
+              <td><%= r.data %></td>
+              <td><%= r.horasSono || '-' %>h</td>
+              <td><%= r.aguaMl || '-' %>ml</td>
+              <td>
+                <%= r.humor %>/5
+                <%= r.humor == 5 ? '😁' : r.humor == 4 ? '😊' : r.humor == 3 ? '😐' : r.humor == 2 ? '😕' : '😞' %>
+              </td>
+              <td>
+                <%= r.qualidadeAlimentacao %>/5
+                <%= r.qualidadeAlimentacao == 5 ? '🌿' : r.qualidadeAlimentacao == 4 ? '🥗' : r.qualidadeAlimentacao == 3 ? '🍛' : r.qualidadeAlimentacao == 2 ? '🥪' : '🍔' %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <div class="button-group">
+      <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
     </div>
   </div>
 </body>

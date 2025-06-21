@@ -1,4 +1,5 @@
 const Registro = require('../models/Registro');
+const { Op } = require('sequelize');
 
 // Exibe formulário vazio de novo registro
 const mostrarFormulario = (req, res) => {
@@ -99,17 +100,36 @@ const registrar = async (req, res) => {
   }
 };
 
-// Histórico completo (somente PRO)
+// Histórico com paginação semanal (últimos 7 dias)
 const getHistorico = async (req, res) => {
   const userId = req.session.userId;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+  const offset = (page - 1) * limit;
+
+  const seteDiasAtras = new Date();
+  seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
 
   try {
-    const registros = await Registro.findAll({
-      where: { userId },
-      order: [['data', 'DESC']]
+    const { count, rows } = await Registro.findAndCountAll({
+      where: {
+        userId,
+        data: {
+          [Op.gte]: seteDiasAtras
+        }
+      },
+      order: [['data', 'DESC']],
+      limit,
+      offset
     });
 
-    res.render('historico', { registros });
+    const totalPages = Math.ceil(count / limit);
+
+    res.render('historico', {
+      registros: rows,
+      currentPage: page,
+      totalPages
+    });
   } catch (error) {
     console.error("Erro ao buscar histórico:", error);
     res.status(500).send("Erro ao carregar histórico.");

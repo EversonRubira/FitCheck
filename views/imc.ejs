@@ -3,20 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <title>Calculadora de IMC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/img/logo-fitcheck.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, rgba(224, 247, 250, 0.7), rgba(241, 248, 233, 0.7)),
+                  url('/img/bg-relaxante.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #ffffffcc;
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .topbar .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #00796b;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar .logo img {
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .dashboard-container {
+      max-width: 720px;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: #00796b;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    label {
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      padding: 6px 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-width: 240px;
+    }
+
+    button {
+      padding: 10px 18px;
+      font-size: 1rem;
+      background-color: #26a69a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+
+    .button-group {
+      margin-top: 14px;
+    }
+
+    .button-group a button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      background-color: #00796b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-group a button:hover {
+      background-color: #004d40;
+    }
+  </style>
 </head>
 <body>
-  <h1>Calculadora de IMC</h1>
-  <form action="/perfil" method="POST">
-    <label for="peso">Peso (kg):</label>
-    <input type="number" name="peso" id="peso" step="0.1" required><br><br>
+  <header class="topbar">
+    <div class="logo">
+      <img src="/img/logo-fitcheck.png" alt="Logo"> FitCheck
+    </div>
+  </header>
 
-    <label for="altura">Altura (m):</label>
-    <input type="number" name="altura" id="altura" step="0.01" required><br><br>
+  <div class="dashboard-container">
+    <h1>Calculadora de IMC</h1>
 
-    <button type="submit">Calcular</button>
-  </form>
-  <p><a href="/dashboard">Voltar ao Dashboard</a></p>
+    <section class="info-box">
+      <form action="/perfil" method="POST">
+        <label for="peso">Peso (kg):</label>
+        <input type="number" name="peso" id="peso" step="0.1" required>
 
+        <label for="altura">Altura (m):</label>
+        <input type="number" name="altura" id="altura" step="0.01" required>
+
+        <button type="submit">Calcular</button>
+      </form>
+    </section>
+
+    <div class="button-group">
+      <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+    </div>
+  </div>
 </body>
 </html>
