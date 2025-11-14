@@ -2,11 +2,18 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Histórico de IMC - FitCheck</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <h1>Histórico de Cálculos</h1>
+
+  <div class="botoes-secundarios_historico">
+    <button onclick="window.location.href='/'">Novo Cálculo</button>
+    <button onclick="window.location.href='/auth/logout'">Sair</button>
+  </div>
+
   <table id="tabela-historico" border="1" style="border-collapse: collapse;">
     <thead>
       <tr>
@@ -15,17 +22,18 @@
         <th>Altura (m)</th>
         <th>IMC</th>
         <th>Classificação</th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Os registros serão inseridos aqui via JS -->
+      <tr>
+        <td colspan="6" style="text-align:center;">Carregando...</td>
+      </tr>
     </tbody>
-    
-
   </table>
-  <div class="botoes-secundarios_historico">
-    <button onclick="window.location.href='/auth/logout'">Sair</button>
-  </div>
+
+  <div id="paginacao" style="margin-top: 20px; text-align: center;"></div>
+
   <script src="/js/historico.js"></script>
 </body>
 </html>

@@ -1,21 +1,29 @@
-const mysql = require ('mysql2');
+require('dotenv').config();
+const mysql = require('mysql2');
 
-// Configuração da conexão com o banco de dados MySQL
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'fitcheck'
+// Configuração do pool de conexões com o banco de dados MySQL
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'root',
+    database: process.env.DB_NAME || 'fitcheck',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0
 });
 
-// Conexão com o banco de dados
-connection.connect((err) => {
+// Testar conexão
+pool.getConnection((err, connection) => {
     if (err) {
         console.error('Erro ao conectar ao MySQL:', err);
-        return;
+        process.exit(1);
     }
-    console.log('Conectado ao MySQL com sucesso!)');
+    console.log('Conectado ao MySQL com sucesso!');
+    connection.release();
 });
 
-module.exports = connection;
+// Exporta a versão com promises para usar async/await
+module.exports = pool.promise();
 
