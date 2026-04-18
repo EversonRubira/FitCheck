@@ -217,6 +217,9 @@
 
     <div class="button-group">
       <a href="/dashboard"><button>⬅ Voltar ao Dashboard</button></a>
+      <% if (userTipo === 'pro') { %>
+    <a href="/registros/analise"><button>🤖 Analisar minha semana</button></a>
+  <% } %>
     </div>
   </div>
 </body>

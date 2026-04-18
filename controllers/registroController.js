@@ -1,5 +1,8 @@
 const Registro = require('../models/Registro');
 const { Op } = require('sequelize');
+const analisarSemana = require('../services/aiService').analisarSemana;
+
+
 
 // Exibe formulário vazio de novo registro
 const mostrarFormulario = (req, res) => {
@@ -125,10 +128,12 @@ const getHistorico = async (req, res) => {
 
     const totalPages = Math.ceil(count / limit);
 
+ 
     res.render('historico', {
       registros: rows,
       currentPage: page,
-      totalPages
+      totalPages,
+      userTipo: req.session.userTipo
     });
   } catch (error) {
     console.error("Erro ao buscar histórico:", error);
@@ -182,10 +187,33 @@ const getHistoricoJson = async (req, res) => {
   }
 };
 
+
+
+const getAnaliseAI = async (req, res) => {
+  const userId = req.session.userId;
+
+  try {
+    const registros = await Registro.findAll({
+      where: { userId },
+      order: [['data', 'DESC']],
+      limit: 7
+    });
+
+    const analise = await analisarSemana(registros);
+    res.render('analise', { analise });
+  } catch (error) {
+    console.error("Erro ao gerar análise:", error);
+    res.status(500).send("Erro ao gerar análise.");
+  }
+};
+
+
 module.exports = {
   mostrarFormulario,
   registrar,
   getHistorico,
   getPorData,
-  getHistoricoJson
+  getHistoricoJson,
+  getAnaliseAI
 };
+

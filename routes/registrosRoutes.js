@@ -4,6 +4,7 @@ const registroController = require('../controllers/registroController');
 const { isAuthenticated } = require('../middleware/authMiddleware');
 const { isPro } = require('../middleware/tipoMiddleware');
 
+
 // Exibe formulário de registo diário (com render dinâmico)
 router.get('/', isAuthenticated, registroController.mostrarFormulario);
 
@@ -18,5 +19,9 @@ router.get('/historico', isAuthenticated, isPro, registroController.getHistorico
 
 // Consulta por data específica
 router.get('/data/:data', isAuthenticated, registroController.getPorData);
+
+// Análise AI dos últimos 7 dias (somente PRO)
+router.get('/analise', isAuthenticated, isPro, registroController.getAnaliseAI);
+
 
 module.exports = router;

@@ -14,7 +14,11 @@ app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'segredo-padrao',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 24 horas
+  }
 }));
 
 app.set('view engine', 'ejs');
@@ -26,7 +30,8 @@ const Perfil = require('./models/Perfil');
 const Registro = require('./models/Registro');
 const Meta = require('./models/Meta');
 
-// Importa relações (se tiver um arquivo só para isso, ótimo)
+// Middleware de erro
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 // Rotas
 app.use('/', require('./routes/mainRoutes'));
@@ -37,8 +42,11 @@ app.use('/metas', require('./routes/metasRoutes'));
 
 // Rota 404
 app.use((req, res) => {
-  res.status(404).send('Página não encontrada');
+  res.status(404).send('Página não encontrada (404)');
 });
+
+// Handler de erros globais
+app.use(errorMiddleware.handler);
 
 // 🔄 Sincroniza com `force: true` (⚠️ REMOVE TUDO)
 sequelize.sync().then(() => {
