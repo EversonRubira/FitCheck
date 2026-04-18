@@ -58,9 +58,9 @@ const setMetas = async (req, res) => {
 
     if (metas) {
       // Atualiza metas se já existiam
-      metas.pesoIdeal = pesoIdeal;
-      metas.sonoMinimo = sonoMinimo;
-      metas.aguaDiariaMl = aguaDiariaMl;
+      metas.pesoIdeal = parseFloat(pesoIdeal);
+      metas.sonoMinimo = parseInt(sonoMinimo);
+      metas.aguaDiariaMl = parseInt(aguaDiariaMl);
       await metas.save();
       res.render('metas', {
         pesoIdeal,
@@ -71,7 +71,7 @@ const setMetas = async (req, res) => {
       });
     } else {
       // Cria novas metas
-      await Meta.create({ userId, pesoIdeal, sonoMinimo, aguaDiariaMl });
+      await Meta.create({ userId, pesoIdeal: parseFloat(pesoIdeal), sonoMinimo: parseInt(sonoMinimo), aguaDiariaMl: parseInt(aguaDiariaMl) });
       res.render('metas', {
         pesoIdeal,
         sonoMinimo,

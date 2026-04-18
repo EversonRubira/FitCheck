@@ -43,7 +43,8 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <%- include('partials/topbar') %>
+  <div class="container" style="margin-top: 80px;">
     <h1>🤖 Análise da tua semana</h1>
     <p class="analise-texto"><%= analise %></p>
     <a href="/registros/historico"><button class="btn">⬅ Voltar ao Histórico</button></a>

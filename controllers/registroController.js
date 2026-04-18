@@ -65,13 +65,13 @@ const registrar = async (req, res) => {
     await Registro.create({
       userId,
       data,
-      horasSono,
+      horasSono: parseInt(horasSono),
       qualidadeSono,
-      aguaMl,
-      humor,
+      aguaMl: parseInt(aguaMl),
+      humor: parseInt(humor),
       tipoAtividade,
       intensidade,
-      qualidadeAlimentacao
+      qualidadeAlimentacao: parseInt(qualidadeAlimentacao) || null
     });
 
     res.render('registro', {

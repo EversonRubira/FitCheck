@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
   <link rel="icon" type="image/png" href="/img/logo-fitcheck.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00796b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="FitCheck">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -133,21 +137,14 @@
       background-color: #b71c1c;
     }
   </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="logo">
-      <img src="/img/logo-fitcheck.png" alt="Logo FitCheck"> FitCheck
-    </div>
-    <nav>
-      <a href="/perfil">Perfil</a>
-      <a href="/metas">Metas</a>
-      <a href="/registro">Registo</a>
-      <a href="/historico">Histórico</a>
-      <a href="/consulta">Consulta</a>
-      <a href="/auth/logout"><strong style="color: #c62828;">Sair</strong></a>
-    </nav>
-  </header>
+  <%- include('partials/topbar') %>
 
   <div class="dashboard-container">
     <h1>Olá, <%= nome %> 👋</h1>

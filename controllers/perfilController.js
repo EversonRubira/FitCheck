@@ -64,9 +64,9 @@ const updatePerfil = async (req, res) => {
         });
       }
 
-      perfil.idade = idade;
-      perfil.altura = altura;
-      perfil.peso = peso;
+      perfil.idade = parseInt(idade);
+      perfil.altura = parseFloat(altura);
+      perfil.peso = parseFloat(peso);
       await perfil.save();
 
       return res.render('perfil', {
@@ -79,7 +79,7 @@ const updatePerfil = async (req, res) => {
     }
 
     // Se não existe perfil, qualquer usuário pode criar
-    await Perfil.create({ userId, idade, altura, peso });
+    await Perfil.create({ userId, idade: parseInt(idade), altura: parseFloat(altura), peso: parseFloat(peso) });
 
     return res.render('perfil', {
       idade,
