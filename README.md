@@ -1,66 +1,66 @@
-# 💪 FitCheck – Seu Assistente de Bem-Estar
+# FitCheck – Health & Wellness Tracker
 
-**FitCheck** é uma aplicação web desenvolvida com Node.js, Express, EJS e MySQL, que permite que utilizadores registem e acompanhem hábitos diários de saúde, como sono, hidratação, humor, alimentação e atividade física. A aplicação diferencia entre utilizadores comuns e PRO, oferecendo funcionalidades exclusivas para quem deseja evoluir ainda mais!
-
----
-
-## 🧭 Funcionalidades
-
-### ✅ Funcionalidades Gerais
-- Login e Registo de Utilizadores
-- Criação de perfil com idade, altura e peso
-- Cálculo automático do IMC com feedback personalizado
-- Registo diário de:
-  - Sono (horas e qualidade)
-  - Consumo de água (ml)
-  - Humor (1 a 5)
-  - Alimentação
-  - Atividade física e intensidade
-- Consulta de registos por data
-- Dashboard com resumo, feedback e ações rápidas
-
-### 🔐 Permissões por Tipo de Utilizador
-
-| Funcionalidade        | Comum 👤 | PRO ⭐ |
-|-----------------------|:--------:|:------:|
-| Criar Perfil          | ✅       | ✅     |
-| Editar Perfil         | ❌       | ✅     |
-| Ver Histórico         | ❌       | ✅     |
-| Criar até 3 Registos  | ✅       | ✅     |
-| Criar Registos Ilimitados | ❌    | ✅     |
-| Metas de Bem-Estar    | ❌       | ✅     |
+FitCheck is a web application built with Node.js, Express, EJS and MySQL that allows users to track daily health habits including sleep, hydration, mood, nutrition and physical activity. The app differentiates between common and PRO users, offering exclusive features for those who want to go further.
 
 ---
 
-## 🧑‍💻 Tecnologias Utilizadas
+## Features
 
-- **Node.js**
-- **Express.js**
-- **EJS** (views dinâmicas)
-- **MySQL** com **Sequelize ORM**
-- **CSS Responsivo** com layout centrado e visual relaxante
-- **Sessões (express-session)** para autenticação
-- **bcrypt** para hash de senhas
+### General
+- User registration and login
+- Profile creation with age, height and weight
+- Automatic BMI calculation with personalized feedback
+- Daily tracking of sleep, water intake, mood, nutrition and physical activity
+- Record lookup by date
+- Dashboard with summary, feedback and quick actions
+
+### AI-Powered Analysis (PRO)
+PRO users can request a personalized weekly health analysis powered by the Groq API (Llama 3.3). The system sends the last 7 days of habit data to the AI model, which cross-references all variables and returns personalized suggestions in Portuguese.
+
+### User Permissions
+
+| Feature                  | Common | PRO |
+|--------------------------|:------:|:---:|
+| Create Profile           | Yes    | Yes |
+| Edit Profile             | No     | Yes |
+| View History             | No     | Yes |
+| Up to 3 Records          | Yes    | Yes |
+| Unlimited Records        | No     | Yes |
+| Wellness Goals           | No     | Yes |
+| AI Weekly Analysis       | No     | Yes |
 
 ---
 
-## 🚀 Instalação e Execução
+## Tech Stack
 
-### 🔧 Requisitos
+- Node.js
+- Express.js
+- EJS
+- MySQL with Sequelize ORM
+- Groq API (Llama 3.3) for AI analysis
+- express-session for authentication
+- bcrypt for password hashing
 
-- Node.js (versão LTS)
-- MySQL Server ou MariaDB
-- Git (opcional)
+---
 
-### 📦 Passos
+## Installation
 
-1. Clone o repositório:
+### Requirements
+- Node.js LTS
+- MySQL Server or MariaDB
+- Groq API key (free tier available at console.groq.com)
+
+### Setup
+
+1. Clone the repository:
 ```bash
 git clone https://github.com/EversonRubira/FitCheck.git
 cd FitCheck
-````
+```
 
-Desenvolvido por Everson Rubira – aluno de Programação Web no Instituto Politécnico de Setúbal.
+2. Install dependencies:
+```bash
+npm install
+```
 
-
-
+3. Configure environment variables in `.env`:
