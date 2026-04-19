@@ -1,22 +1,18 @@
-const CACHE_NAME = 'fitcheck-v1';
-const ASSETS = [
-  '/',
-  '/dashboard',
+const CACHE_NAME = 'fitcheck-v2';
+const STATIC_ASSETS = [
   '/style.css',
   '/manifest.json',
   '/img/logo-fitcheck.png',
   '/img/bg-relaxante.jpg'
 ];
 
-// Instala e guarda assets em cache
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-// Limpa caches antigos
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -26,13 +22,19 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Serve do cache, senão vai à rede
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request).catch(() => caches.match('/'));
-    })
-  );
+  const url = new URL(event.request.url);
+
+  // Static assets: cache-first
+  if (STATIC_ASSETS.includes(url.pathname)) {
+    event.respondWith(
+      caches.match(event.request).then(cached => cached || fetch(event.request))
+    );
+    return;
+  }
+
+  // HTML pages: network-first (sempre busca do servidor)
+  event.respondWith(fetch(event.request));
 });
