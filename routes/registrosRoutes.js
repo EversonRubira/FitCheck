@@ -23,5 +23,8 @@ router.get('/data/:data', isAuthenticated, registroController.getPorData);
 // Análise AI dos últimos 7 dias (somente PRO)
 router.get('/analise', isAuthenticated, isPro, registroController.getAnaliseAI);
 
+// Streaming (SSE) da geração da análise AI
+router.get('/analise/stream', isAuthenticated, isPro, registroController.getAnaliseAIStream);
+
 
 module.exports = router;
