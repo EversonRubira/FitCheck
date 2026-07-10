@@ -1,6 +1,9 @@
 const Registro = require('../models/Registro');
+const User = require('../models/User');
 const { Op } = require('sequelize');
-const analisarSemana = require('../services/aiService').analisarSemana;
+const { analisarSemana, analisarSemanaStream } = require('../services/aiService');
+
+const LIMITE_ANALISES_IA = 3;
 
 
 
@@ -189,21 +192,65 @@ const getHistoricoJson = async (req, res) => {
 
 
 
+// Exibe a página da análise: mostra o aviso de quantas análises restam,
+// ou a mensagem de limite atingido. A geração em si acontece via streaming (getAnaliseAIStream).
 const getAnaliseAI = async (req, res) => {
   const userId = req.session.userId;
 
   try {
+    const usuario = await User.findByPk(userId);
+    const limiteAtingido = usuario.ai_analysis_count >= LIMITE_ANALISES_IA;
+
+    res.render('analise', {
+      limiteAtingido,
+      numeroAnalise: usuario.ai_analysis_count + 1,
+      limite: LIMITE_ANALISES_IA
+    });
+  } catch (error) {
+    console.error("Erro ao carregar página de análise:", error);
+    res.status(500).send("Erro ao carregar análise.");
+  }
+};
+
+// Gera a análise da semana via Groq em streaming (Server-Sent Events).
+const getAnaliseAIStream = async (req, res) => {
+  const userId = req.session.userId;
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders?.();
+
+  const enviar = (evento, dados) => {
+    res.write(`event: ${evento}\n`);
+    res.write(`data: ${JSON.stringify(dados)}\n\n`);
+  };
+
+  try {
+    const usuario = await User.findByPk(userId);
+
+    if (usuario.ai_analysis_count >= LIMITE_ANALISES_IA) {
+      enviar('limite', { mensagem: 'Atingiste o limite de 3 análises de teste. Obrigado por experimentar o FitCheck!' });
+      return res.end();
+    }
+
     const registros = await Registro.findAll({
       where: { userId },
       order: [['data', 'DESC']],
       limit: 7
     });
 
-    const analise = await analisarSemana(registros);
-    res.render('analise', { analise });
+    await analisarSemanaStream(registros, (texto) => enviar('chunk', { texto }));
+
+    usuario.ai_analysis_count += 1;
+    await usuario.save();
+
+    enviar('done', {});
+    res.end();
   } catch (error) {
-    console.error("Erro ao gerar análise:", error);
-    res.status(500).send("Erro ao gerar análise.");
+    console.error("Erro ao gerar análise em streaming:", error);
+    enviar('erro', { mensagem: 'Erro ao gerar análise.' });
+    res.end();
   }
 };
 
@@ -214,6 +261,7 @@ module.exports = {
   getHistorico,
   getPorData,
   getHistoricoJson,
-  getAnaliseAI
+  getAnaliseAI,
+  getAnaliseAIStream
 };
 

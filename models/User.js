@@ -20,6 +20,11 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     defaultValue: 'comum',
     allowNull: false
+  },
+  ai_analysis_count: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
   }
 });
 
