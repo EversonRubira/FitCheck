@@ -6,62 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/img/logo-fitcheck.png">
   <link rel="stylesheet" href="/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
-    body { padding-top: 80px; }
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 40px;
-    }
-    .analise-texto { line-height: 1.8; white-space: pre-wrap; text-align: left; }
-    .analise-texto .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: var(--primary, #00897b);
-      margin-left: 2px;
-      vertical-align: text-bottom;
-      animation: piscar 0.8s step-end infinite;
-    }
-    @keyframes piscar { 50% { opacity: 0; } }
-    .aviso-limite {
-      background: var(--primary-ghost, rgba(0, 137, 123, 0.12));
-      border: 1.5px solid var(--primary, #00897b);
-      color: var(--text-primary, #1a2e2b);
-      border-radius: 12px;
-      padding: 14px 18px;
-      margin-bottom: 24px;
-      font-size: 0.95rem;
-    }
-    .limite-box {
-      text-align: center;
-      background: rgba(229, 57, 53, 0.08);
-      border: 1.5px solid var(--danger, #e53935);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-  </style>
+  <link rel="stylesheet" href="/analise.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="an-body">
   <%- include('partials/topbar') %>
-  <div class="container" style="margin-top: 80px;">
-    <h1>Análise da tua semana</h1>
+
+  <%
+    const usadas = limiteAtingido ? limite : numeroAnalise;
+    const progresso = Math.round((usadas / limite) * 100);
+    const deslocamento = (113.1 * (1 - usadas / limite)).toFixed(1);
+  %>
+
+  <main class="an-page">
+    <section class="an-card an-head">
+      <div>
+        <h1 class="an-title">Análise <strong><%= usadas %> de <%= limite %></strong></h1>
+        <p class="an-sub">Com base nos teus últimos 7 registos.</p>
+      </div>
+      <div class="an-ring-wrap">
+        <svg class="an-ring" viewBox="0 0 44 44" aria-hidden="true">
+          <circle class="an-ring-bg" cx="22" cy="22" r="18"></circle>
+          <circle class="an-ring-fg" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="<%= deslocamento %>"></circle>
+        </svg>
+        <span class="an-ring-label"><%= progresso %>%</span>
+      </div>
+    </section>
 
     <% if (limiteAtingido) { %>
-      <div class="limite-box">
+      <section class="an-card an-limit">
         <p>Atingiste o limite de <%= limite %> análises de teste. Obrigado por experimentar o FitCheck!</p>
-      </div>
+      </section>
     <% } else { %>
-      <div class="aviso-limite">
-        Tens direito a <%= limite %> análises gratuitas. Estás a usar a análise <%= numeroAnalise %> de <%= limite %>.
-      </div>
-      <p class="analise-texto" id="analise-texto"><span class="cursor"></span></p>
+      <section class="an-card">
+        <p class="an-status" id="analise-estado" role="status">A analisar os teus registos...</p>
+        <p class="analise-texto" id="analise-texto"><span class="cursor"></span></p>
+      </section>
+      <p class="an-notice">
+        Os teus últimos 7 registos são enviados à Groq para gerar esta análise.
+        É informação geral e não substitui aconselhamento médico.
+      </p>
     <% } %>
 
-    <a href="/registros/historico"><button class="btn">⬅ Voltar ao Histórico</button></a>
-  </div>
+    <a class="an-back" href="/registros/historico">Voltar ao Histórico</a>
+  </main>
 
   <% if (!limiteAtingido) { %>
     <script src="/analise.js"></script>

@@ -4,9 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!container) return;
 
   const cursor = container.querySelector('.cursor');
+  const estado = document.getElementById('analise-estado');
   const fila = [];
   let aRevelar = false;
   let terminou = false;
+  let recebeuTexto = false;
+
+  function marcarEstado(texto, classe) {
+    if (!estado) return;
+    estado.textContent = texto;
+    estado.className = 'an-status' + (classe ? ' ' + classe : '');
+  }
 
   function revelarProximo() {
     if (fila.length === 0) {
@@ -21,20 +29,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function adicionarTexto(texto) {
-    fila.push(...texto.split(''));
+    fila.push(...Array.from(texto));
     if (!aRevelar) revelarProximo();
+  }
+
+  // Marca o fim da ligação. O cursor sai quando a fila de letras esvaziar.
+  function terminar() {
+    terminou = true;
+    if (!aRevelar && cursor) cursor.remove();
   }
 
   const origem = new EventSource('/registros/analise/stream');
 
   origem.addEventListener('chunk', (evento) => {
     const { texto } = JSON.parse(evento.data);
+    if (!recebeuTexto) {
+      recebeuTexto = true;
+      marcarEstado('A escrever a análise...');
+    }
     adicionarTexto(texto);
   });
 
   origem.addEventListener('limite', (evento) => {
     const { mensagem } = JSON.parse(evento.data);
     container.textContent = mensagem;
+    marcarEstado('Limite atingido', 'is-error');
     origem.close();
   });
 
@@ -42,19 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
   origem.addEventListener('erro', (evento) => {
     const { mensagem } = JSON.parse(evento.data);
     adicionarTexto(`\n${mensagem}`);
+    marcarEstado('Análise interrompida', 'is-error');
     origem.close();
+    terminar();
   });
 
   origem.addEventListener('done', () => {
+    marcarEstado('Análise concluída', 'is-done');
     origem.close();
+    terminar();
   });
 
-  // Conexão perdida sem aviso do servidor: informa o utilizador.
-  // O cursor é removido pelo revelarProximo quando a mensagem acabar de ser escrita.
+  // Conexão perdida sem aviso do servidor: informa o utilizador
   origem.onerror = () => {
     origem.close();
     console.log("Conexão SSE fechada inesperadamente.");
-    terminou = true;
+    marcarEstado('Ligação perdida', 'is-error');
     adicionarTexto("\nConexão perdida. Por favor, recarregue a página para tentar novamente.");
+    terminar();
   };
 });
