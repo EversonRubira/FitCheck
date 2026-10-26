@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const cursor = container.querySelector('.cursor');
   const fila = [];
   let aRevelar = false;
+  let terminou = false;
 
   function revelarProximo() {
     if (fila.length === 0) {
       aRevelar = false;
+      if (terminou && cursor) cursor.remove();
       return;
     }
     aRevelar = true;
@@ -36,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     origem.close();
   });
 
+  // Erro enviado pelo servidor: mostra a mensagem e fecha a conexão
   origem.addEventListener('erro', (evento) => {
     const { mensagem } = JSON.parse(evento.data);
     adicionarTexto(`\n${mensagem}`);
@@ -46,8 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
     origem.close();
   });
 
+  // Conexão perdida sem aviso do servidor: informa o utilizador.
+  // O cursor é removido pelo revelarProximo quando a mensagem acabar de ser escrita.
   origem.onerror = () => {
     origem.close();
-    if (cursor) cursor.remove();
+    console.log("Conexão SSE fechada inesperadamente.");
+    terminou = true;
+    adicionarTexto("\nConexão perdida. Por favor, recarregue a página para tentar novamente.");
   };
 });
