@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function adicionarTexto(texto) {
-    fila.push(...texto.split(''));
+    fila.push(...Array.from(texto));
     if (!aRevelar) revelarProximo();
   }
 
